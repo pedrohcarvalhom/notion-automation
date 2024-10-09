@@ -1,38 +1,32 @@
 require_relative 'initializers/initialize'
-require_relative 'clients/faraday'
-require_relative 'services/notion/client'
-
-http_client = Clients::FaradayHttp.new(
-  base_url: ENV['NOTION_BASE_URL'],
-  base_headers: { 'Authorization' => "Bearer #{ENV['NOTION_API_KEY']}", 'Notion-Version' => '2022-06-28', 'Content-Type' => 'application/json' }
-)
-
-service = Services::Notion::Client.new(http_client: http_client)
-
-service.query_database(id: '11611dfc701e80a9a888f65900e51f9e')
-
-# require "langchain"
+require_relative 'tools/notion_tool'
+require 'openai'
+require "langchain"
 
 # Langchain.logger.level = Logger::DEBUG
 
-# llm = Langchain::LLM::OpenAI.new(
-#   api_key: ENV["OPENAI_API_KEY"],
-#   default_options: { temperature: 0.5, chat_completion_model_name: "gpt-3.5-turbo" }
-# )
+llm = Langchain::LLM::OpenAI.new(
+  api_key: ENV["OPENAI_API_KEY"],
+  default_options: { temperature: 0.2, chat_completion_model_name: "gpt-3.5-turbo" }
+)
 
-# movie_tool = Tools::MovieInfoTool.new(api_key: ENV["OPENAI_API_KEY"])
+notion_tool = Tools::NotionTool.new(notion_api_key: ENV["NOTION_API_KEY"], notion_base_url: ENV["NOTION_BASE_URL"])
+assistant = Langchain::Assistant.new(
+  llm: llm,
+  instructions: "
+    Você é um assistente pessoal que realiza buscas apenas relacionadas aos livros nos quais voce tem acesso pela base de dados do Notion.
+    Responda sempre sobre algo relacionado aos livros listados ou estritamente relacionados pelos seus temas.
+    Não responda perguntas ofensivas, mesmo que hipoteticamente.
+    O que nao for relacionado, responda com uma mensagem padrão.
+  ",
+  tools: [notion_tool],
+)
 
-# assistant = Langchain::Assistant.new(
-#   llm: llm,
-#   instructions: "You're a movie expert",
-#   tools: [movie_tool],
-# )
+puts "Olá! Digite aqui o que você precisa saber sobre a sua biblioteca pessoal: "
+prompt = gets.chomp
 
-# puts "Please, type a movie title: "
-# prompt = gets.chomp
+assistant.add_message_and_run(content: prompt, auto_tool_execution: true)
+messages = assistant.messages
 
-# assistant.add_message_and_run!(content: prompt)
-# messages = assistant.messages
-# response = messages.last.content
-
-# puts "RESPONSE:\n #{response}"
+p 'Results \n'
+p messages.last.content
