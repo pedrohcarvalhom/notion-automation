@@ -23,8 +23,12 @@ module Services::Notion
         property_hash["rich_text"].map { |text| text["plain_text"] }.join(" ")
       when "title"
         property_hash["title"].map { |text| text["plain_text"] }.join(" ")
+      when "status"
+        property_hash["status"] ? property_hash["status"]["name"] : nil
+      when "date"
+        { start: property_hash["date"]["start"], end: property_hash["date"]["end"] }
       else
-        nil
+        { unknown: property_hash["type"] }
       end
     end
   end

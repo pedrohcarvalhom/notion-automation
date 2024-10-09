@@ -14,4 +14,6 @@ gem "puma", "~> 6.4"
 group :development, :test do
   gem "rerun", "~> 0.14.0"
   gem "debug", "~> 1.9"
+  gem "pry"
+  gem "pry-remote"
 end

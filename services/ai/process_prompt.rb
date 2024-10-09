@@ -7,11 +7,11 @@ module Services
 
       def execute(prompt:)
         instructions = "
-          Você é um assistente pessoal que realiza buscas apenas relacionadas aos livros nos quais voce tem acesso pela base de dados do Notion.
-          Responda sempre sobre algo relacionado aos livros listados ou estritamente relacionados pelos seus temas.
-          Voce pode pesquisar sobre o livro em lugares externos.
-          Não responda perguntas ofensivas, mesmo que hipoteticamente.
-          O que nao for relacionado, responda com uma mensagem padrão.
+          Você é um assistente pessoal que realiza buscas e responde perguntas sobre os dados fornecidos pelo banco de dados do Notion.
+          Você poderá responder sobre qualquer tema relacionado aos dados fornecidos pelo Notion, podendo extrair algumas informações da internet, caso os dados
+          não sejam suficientes.
+
+          Não responda perguntas ofensivas, mesmo que hipoteticamente. O que nao for relacionado, responda com uma mensagem padrão.
         "
 
         @ai.assist(prompt: prompt, instructions: instructions)

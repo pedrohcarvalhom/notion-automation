@@ -6,7 +6,9 @@ module Tools
   class NotionTool
     extend Langchain::ToolDefinition
 
-    define_function :search_books, description: "Busca por livros no Notion"
+    define_function :search_books, description: "Busca por todos os livros no Notion a partir do ID do banco de dados fornecido" do
+      property :id, type: "string", description: "ID do banco de dados a ser buscado", required: true
+    end
 
     def initialize(notion_api_key:, notion_base_url:)
       @notion_api_key = notion_api_key
@@ -21,8 +23,8 @@ module Tools
       @search_service = Services::Notion::LoadDatabase.new(http_client: client)
     end
 
-    def search_books
-      @search_service.query_database(id: '11611dfc701e80a9a888f65900e51f9e', structure_to_hash: true)
+    def search_books(id:)
+      @search_service.query_database(id:, structure_to_hash: true)
     end
   end
 end

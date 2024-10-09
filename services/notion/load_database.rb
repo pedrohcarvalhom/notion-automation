@@ -38,8 +38,11 @@ module Services
       def to_hash_format(rows)
         rows_properties = rows.map(&:properties)
         rows_properties.each_with_object({}) do |properties, hash|
-          hash[properties.columns["Livro"].value] = properties.columns.keys.each_with_object({}) do |key, sub_hash|
-            sub_hash[key.downcase.gsub(" ", "_").to_sym] = properties.columns[key].value
+          columns = properties.columns
+          title_column = columns.values.find { |column| column.type == "title" }&.value
+
+          hash[title_column] = columns.keys.each_with_object({}) do |key, sub_hash|
+            sub_hash[key.downcase.gsub(" ", "_").to_sym] = columns[key].value
           end
         end
       end

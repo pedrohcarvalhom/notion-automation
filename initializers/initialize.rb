@@ -1,2 +1,7 @@
 require "dotenv/load"
-require 'debug'
+
+if ENV["RUBY_ENV"] == "development"
+  require 'debug'
+  require 'pry'
+  require 'pry-remote'
+end
