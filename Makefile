@@ -1,0 +1,2 @@
+serve:
+	rerun app.rb

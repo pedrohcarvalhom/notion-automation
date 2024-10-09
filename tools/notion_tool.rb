@@ -1,6 +1,6 @@
 require 'langchain'
 require_relative '../clients/faraday'
-require_relative '../services/notion/client'
+require_relative '../services/notion/load_database'
 
 module Tools
   class NotionTool
@@ -18,7 +18,7 @@ module Tools
           'Content-Type' => 'application/json'
         }
       )
-      @search_service = Services::Notion::Client.new(http_client: client)
+      @search_service = Services::Notion::LoadDatabase.new(http_client: client)
     end
 
     def search_books

@@ -3,7 +3,7 @@ require_relative 'properties'
 
 module Services
   module Notion
-    class Client
+    class LoadDatabase
       def initialize(http_client:)
         @http_client = http_client
       end
