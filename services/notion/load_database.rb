@@ -35,7 +35,6 @@ module Services
         )
       end
 
-
       def to_hash_format(rows)
         rows_properties = rows.map(&:properties)
         rows_properties.each_with_object({}) do |properties, hash|
