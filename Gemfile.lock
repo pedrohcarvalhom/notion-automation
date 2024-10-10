@@ -40,6 +40,7 @@ GEM
     logger (1.6.1)
     matrix (0.4.2)
     method_source (1.1.0)
+    multi_json (1.15.0)
     multipart-post (2.4.1)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
@@ -87,6 +88,12 @@ GEM
       rack-protection (= 4.0.0)
       rack-session (>= 2.0.0, < 3)
       tilt (~> 2.0)
+    sinatra-contrib (4.0.0)
+      multi_json (>= 0.0.2)
+      mustermann (~> 3.0)
+      rack-protection (= 4.0.0)
+      sinatra (= 4.0.0)
+      tilt (~> 2.0)
     slop (3.6.0)
     stringio (3.1.1)
     tilt (2.4.0)
@@ -110,6 +117,7 @@ DEPENDENCIES
   rerun (~> 0.14.0)
   ruby-openai (~> 7.1)
   sinatra (~> 4.0)
+  sinatra-contrib (~> 4.0)
 
 BUNDLED WITH
    2.5.3

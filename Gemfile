@@ -17,3 +17,5 @@ group :development, :test do
   gem "pry"
   gem "pry-remote"
 end
+
+gem "sinatra-contrib", "~> 4.0"
